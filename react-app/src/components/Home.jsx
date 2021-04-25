@@ -26,21 +26,23 @@ import Teams from "./Teams";
 import {  } from "module";
 import "./Home.css";
 
-import { useSelector} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
-
+import {LOGOUT} from './../actions/types.js';
 
 function detectMob() {
     return ( ( window.innerWidth <= 800 ) && ( window.innerHeight <= 600 ) );
 }
 
 const Home = () => {
-
+    const dispatch = useDispatch();
     const auth = useSelector(state => state.auth)
     const history = useHistory()
     if (!auth.login)
         history.push('/');
-
+    const handleLogout = () => {
+        dispatch({type: LOGOUT})
+    }
 
     let menu = {};
     let  menuWidth = 2;
@@ -127,7 +129,7 @@ const Home = () => {
                                 <ListItemIcon>
                                     <ExitToAppIcon/>
                                 </ListItemIcon>
-                                <NavLink to='/log_out'>Wyloguj</NavLink>
+                                <NavLink to='/' onClick={handleLogout}>Wyloguj</NavLink>
                             </ListItem>
 
                         </List>
