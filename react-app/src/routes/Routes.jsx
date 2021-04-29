@@ -10,13 +10,13 @@ const Routes = () => {
     <Switch>
        <Route path='/' exact component={Signin} />
        <Route path='/signup' component={Signup} />
-
         <Route path="/notifications" component={Home}/>
         <Route path="/messages" component={Home}/>
         <Route path="/tasks" component={Home}/>
         <Route path="/calls" component={Home}/>
         <Route path="/teams" component={Home}/>
         <Route path='/home' component={Home} />
+        <Route path='/account' component={Home} />
 
     </Switch>
   );
