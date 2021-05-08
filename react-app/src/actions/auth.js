@@ -4,6 +4,7 @@ import {SIGNIN, SIGNUP, SIGNIN_ERROR, SIGNUP_ERROR} from './types'
 export const signin = (signinData) => async (dispatch) => {
     try {
         const res = await axios.post(`http://localhost:8080/api/login?email=${signinData.email}&password=${signinData.password}`)
+        console.log(res)
         dispatch({
             type: SIGNIN,
             payload: res.data // res.data.token ??

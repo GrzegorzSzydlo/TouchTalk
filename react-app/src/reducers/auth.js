@@ -11,7 +11,10 @@ import {
 const user = JSON.parse(localStorage.getItem('user'));
 const initialState = user ? {
     login: true,
-    user: user
+    user: user,
+    userData: {
+        image: null
+    }
 } : {
     login: false,
     user: null,
@@ -26,7 +29,9 @@ const auth = (state = initialState, action) => {
             localStorage.setItem("id", JSON.stringify(action.payload.first));
             localStorage.setItem("token", JSON.stringify(action.payload.second));
             return {
-                ...state, auth: action.payload, login: true, login_error: false
+                ...state, auth: action.payload, login: true, login_error: false,  userData: {
+                    avatar: 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+                }
             }
         case SIGNIN_ERROR:
             return {

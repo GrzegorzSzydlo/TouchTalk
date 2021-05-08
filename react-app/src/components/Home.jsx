@@ -22,6 +22,7 @@ import Messages from "./Messages";
 import Tasks from "./Tasks";
 import Calls from "./Calls";
 import Teams from "./Teams";
+import accountSettings from './accountSettings/AccountSettings.jsx';
 import {  } from "module";
 import "../style/Home.css";
 
@@ -38,18 +39,18 @@ function detectMob() {
 
 const Home = () => {
 
+    useEffect(() => {
+        getUserDetails().then(res=>{
+            dispatch({type: 'USERDATA', payload: res.data.userDetails})
+        })
+    }, []);
+
     const auth = useSelector(state => state.auth)
+    const userData = useSelector(state => state.auth.userData)
     const history = useHistory()
     const dispatch = useDispatch();
     if (!auth.login)
         history.push('/');
-
-    const [userDetails, setUserDetails] = useState(
-        {
-            name: "",
-            surname: ""
-        }
-    );
 
     const handleLogout = () => {
         dispatch(signout()).then(() => {
@@ -61,11 +62,7 @@ const Home = () => {
         history.push("/message");
     }
 
-    useEffect(() => {
-        getUserDetails().then(response=>{
-            setUserDetails(response.data.userDetails);
-        })
-    }, []);
+    
 
     let menu = {};
     let  menuWidth = 2;
@@ -85,6 +82,7 @@ const Home = () => {
         };
         contentWidth = 12;
     }
+    console.log(userData ? "ok" : "nie")
     return (
         <section>
             <AppBar position="relative">
@@ -92,10 +90,10 @@ const Home = () => {
                     <div className="navList">
                         <div className="navList2">
                             <div class='photo1'>
-                                <Avatar alt="User1" src="https://material-ui.com/static/images/avatar/3.jpg" />
+                                <Avatar alt="User1" src={userData.image ? userData.image : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'} />
                             </div>
                             <Typography variant="h6" >
-                                {userDetails.name} {userDetails.surname}
+                                {userData ? userData.name : null} {userData ? userData.surname : null}
                             </Typography>
                         </div>
                         <div align="flex-end">
@@ -170,6 +168,13 @@ const Home = () => {
                             {/*    </NavLink>*/}
                             {/*</ListItem>*/}
                             <ListItem>
+                                <NavLink to='/account'>
+                                    <Button>
+                                        Ustawienia
+                                    </Button>
+                                </NavLink>
+                            </ListItem>
+                            <ListItem>
                                 <Button
                                     onClick={handleLogout}
                                 >
@@ -186,6 +191,7 @@ const Home = () => {
                     <Route path="/tasks" component={Tasks}/>
                     <Route path="/calls" component={Calls}/>
                     <Route path="/teams" component={Teams}/>
+                    <Route path="/account" component={accountSettings}/>
                 </Grid>
             </Grid>
         </section>
